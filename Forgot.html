@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baked by Jaimie - Forget Password</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .forgot-password-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 350px;
+            text-align: center;
+        }
+        .forgot-password-container h2 {
+            margin-bottom: 20px;
+            color: #63372C;
+        }
+        .forgot-password-container input[type="email"] {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .forgot-password-container button {
+            background-color: #63372C;
+            color: #fff;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .forgot-password-container button:hover {
+            background-color: #4e2c21;
+        }
+        .message {
+            color: green;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+        @media (max-width: 600px) {
+            .forgot-password-container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="forgot-password-container">
+        <h2>Reset Your Password</h2>
+        <form id="forgotPasswordForm">
+            <input type="email" id="resetEmail" placeholder="Enter your email" required>
+            <button type="submit">Send Reset Link</button>
+        </form>
+        <div class="message" id="resetMessage"></div>
+    </div>
+
+    <script>
+        document.getElementById('forgotPasswordForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const email = document.getElementById('resetEmail').value;
+
+            if (validateEmail(email)) {
+                document.getElementById('resetMessage').textContent = `A password reset link has been sent to ${email}.`;
+                document.getElementById('resetMessage').style.color = 'green';
+            } else {
+                document.getElementById('resetMessage').textContent = 'Please enter a valid email address.';
+                document.getElementById('resetMessage').style.color = 'red';
+            }
+        });
+
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(String(email).toLowerCase());
+        }
+    </script>
+</body>
+</html>

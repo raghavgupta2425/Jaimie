@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/style.css">
+  <title>Baked By Jaimie </title>
+</head>
+<body>
+  <div class="container">
+    <h1>Checkout</h1>
+
+    <!-- Cart Summary -->
+    <div class="returnCart">
+      <h2>Products in Cart</h2>
+      <div class="list"></div>
+      <div class="summary">
+        <div>Total Quantity: <span class="totalQuantity">0</span></div>
+        <div>Total Price: <span class="cart-total">$0</span></div>
+      </div>
+    </div>
+
+    <!-- Customer Details Form -->
+    <div class="form">
+      <h2>Enter Your Details</h2>
+      <div class="group">
+        <label for="fullName">Full Name</label>
+        <input type="text" id="fullName" name="fullName">
+      </div>
+      <div class="group">
+        <label for="country">Country</label>
+        <select id="country" name="country">
+          <option value="">Choose...</option>
+          <option value="NewYork">NewYork</option>
+        </select>
+      </div>
+            <div class="group">
+        <label for="State">State</label>
+        <select id="State" name="State">
+          <option value="">Choose...</option>
+          <option value="Chelsea">Chelsea</option>
+          <option value="Manhattan">Manhattan</option>
+        </select>
+      </div>
+      
+      <div class="group">
+        <label for="city">City</label>
+        <input type="text" id="city" name="city">
+         <label for="Mobile">Mobile</label>
+ <input type="Number" id="Mobile" name="Mobile">
+        
+      </div>
+      <button onclick="submitCheckout()">Submit</button>
+    </div>
+  </div>
+
+  <script>
+    // Cart Data
+    let listCart = {};
+
+    // Initialize the checkout page
+    window.onload = function() {
+      checkCart();
+      updateCheckoutPage();
+    };
+
+    // Function to retrieve cart from local storage
+    function checkCart() {
+      let savedCart = localStorage.getItem('listCart');
+      if (savedCart) {
+        listCart = JSON.parse(savedCart);
+      }
+    }
+
+    // Function to update the checkout page with cart data
+    function updateCheckoutPage() {
+      let listCartHTML = document.querySelector('.returnCart .list');
+      let totalQuantityHTML = document.querySelector('.totalQuantity');
+      let totalPriceHTML = document.querySelector('.cart-total');
+
+      listCartHTML.innerHTML = '';
+      let totalQuantity = 0;
+      let totalPrice = 0;
+
+      for (let id in listCart) {
+        let product = listCart[id];
+        let newCartItem = document.createElement('div');
+        newCartItem.classList.add('item');
+        newCartItem.innerHTML = `
+          <img src="${product.image}" alt="${product.name}" >
+
+          <div class="name">${product.name}</div>
+          <div class="price">$${product.price} per item</div>
+          <div class="quantity">Qty: ${product.quantity}</div>
+          <div class="totalPrice">Total: $${product.price * product.quantity}</div>
+        `;
+        listCartHTML.appendChild(newCartItem);
+
+        totalQuantity += product.quantity;
+        totalPrice += product.price * product.quantity;
+      }
+
+      totalQuantityHTML.innerText = totalQuantity;
+      totalPriceHTML.innerText = `$${totalPrice}`;
+    }
+
+    // Function to handle form submission (example placeholder)
+    function submitCheckout() {
+      alert('Order Submitted!');
+      // Clear cart data after submission
+      localStorage.removeItem('listCart');
+      window.location.href = '/thank-you.html'; // Redirect after submission
+    }
+  </script>
+  <style>
+    /* General Style */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 20px;
+  color: #333;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+h1, h2 {
+  text-align: center;
+  color: #d2691e; /* Cake-like color */
+}
+
+h1 {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+}
+
+/* Cart Summary */
+.returnCart {
+  margin-bottom: 30px;
+}
+
+.list .item {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding: 10px 0;
+}
+
+.list .item img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-right: 20px;
+}
+
+.list .item .name {
+  font-weight: bold;
+  font-size: 1.1em;
+  flex: 1;
+}
+
+.list .item .price,
+.list .item .quantity,
+.list .item .totalPrice {
+  margin-left: 10px;
+  color: #555;
+}
+
+.summary {
+  font-size: 1.2em;
+  text-align: right;
+  margin-top: 15px;
+}
+
+.summary div {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.cart-total {
+  color: #d2691e;
+  font-size: 1.4em;
+}
+
+/* Form Styling */
+.form {
+  margin-top: 30px;
+}
+
+.group {
+  margin-bottom: 15px;
+}
+
+.group label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 1em;
+}
+
+.group input, 
+.group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1em;
+}
+
+button {
+  width: 100%;
+  padding: 15px;
+  background-color: #d2691e;
+  color: #fff;
+  font-size: 1.2em;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #bf570e;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .list .item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .list .item img {
+    margin-bottom: 10px;
+  }
+
+  button {
+    font-size: 1em;
+    padding: 12px;
+  }
+}
+  </style>
+</body>
+</html>
